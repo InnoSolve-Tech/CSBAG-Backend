@@ -55,7 +55,7 @@ public class DepartmentService {
     public void deleteDepartment(Long id) throws NotFoundException {
         Department department = getDepartmentById(id);
         if (!department.getUsers().isEmpty()) {
-            throw new IllegalStateException("Cannot delete department with assigned users");
+            throw new IllegalStateException("Cannot delete department with assigned users"+ department.getDepartmentName());
         }
         departmentRepository.deleteById(id);
     }

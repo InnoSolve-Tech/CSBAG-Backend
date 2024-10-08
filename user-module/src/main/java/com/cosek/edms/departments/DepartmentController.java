@@ -2,6 +2,7 @@ package com.cosek.edms.departments;
 
 import com.cosek.edms.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -19,8 +20,8 @@ import java.util.List;
 public class DepartmentController {
     private final DepartmentService departmentService;
 
-    @PostMapping
-    public ResponseEntity<Department> createDepartment(@Validated @RequestBody Department department) {
+    @PostMapping("/createDepartment")
+    public ResponseEntity<Department> createDepartment(@RequestBody Department department) {
         Department newDepartment = departmentService.createDepartment(department);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
