@@ -48,6 +48,10 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(request ->
                         request.requestMatchers(AUTH_ROUTE)
                                 .permitAll()
+                                .requestMatchers(HttpMethod.POST, "/api/v1/users/**").hasAnyAuthority(CREATE_USER, CREATE_ROLE, CREATE_PERMISSION)
+                                .requestMatchers(HttpMethod.GET, "/api/v1/users/**").hasAnyAuthority(READ_USER, READ_ROLE, READ_PERMISSION)
+                                .requestMatchers(HttpMethod.PUT, "/api/v1/users/**").hasAnyAuthority(UPDATE_USER, UPDATE_ROLE, UPDATE_PERMISSION)
+                                .requestMatchers(HttpMethod.DELETE, "/api/v1/users/**").hasAnyAuthority(DELETE_USER, DELETE_ROLE, DELETE_PERMISSION)
                                 .requestMatchers(HttpMethod.POST, USER_ROUTE).hasAuthority(CREATE_USER)
                                 .requestMatchers(HttpMethod.GET, USER_ROUTE).hasAuthority(READ_USER)
                                 .requestMatchers(HttpMethod.DELETE, USER_ROUTE).hasAuthority(DELETE_USER)

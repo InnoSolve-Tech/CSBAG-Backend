@@ -29,7 +29,7 @@ public class UserController {
         return ResponseEntity.ok(userService.findOneUser(id));
     }
 
-    @PostMapping("/users")
+    @PostMapping("/users/create-users")
     public ResponseEntity<User> createUser(@RequestBody CreateUserRequest request) {
         User response = null;
         try {

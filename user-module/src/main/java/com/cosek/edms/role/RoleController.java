@@ -56,4 +56,20 @@ public class RoleController {
             throw new RuntimeException(e);
         }
     }
+
+    @PostMapping("/{roleName}/permissions/add")
+    public ResponseEntity<Role> addPermissionToRole(
+            @PathVariable String roleName,
+            @RequestParam String permissionName) {
+        Role updatedRole = roleService.addPermissionToRole(roleName, permissionName);
+        return ResponseEntity.ok(updatedRole);
+    }
+
+    @PostMapping("/{roleName}/permissions/remove")
+    public ResponseEntity<Role> removePermissionFromRole(
+            @PathVariable String roleName,
+            @RequestParam String permissionName) {
+        Role updatedRole = roleService.removePermissionFromRole(roleName, permissionName);
+        return ResponseEntity.ok(updatedRole);
+    }
 }

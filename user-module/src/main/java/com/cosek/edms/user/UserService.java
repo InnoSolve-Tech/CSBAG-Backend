@@ -1,6 +1,8 @@
 package com.cosek.edms.user;
 
 import com.cosek.edms.exception.NotFoundException;
+import com.cosek.edms.permission.Permission;
+import com.cosek.edms.permission.PermissionService;
 import com.cosek.edms.role.Role;
 import com.cosek.edms.role.RoleService;
 import com.cosek.edms.user.Models.CreateUserRequest;
@@ -19,29 +21,52 @@ public class UserService {
     private final UserRepository userRepository;
     private final RoleService roleService;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final PermissionService permissionService;
 
     public User createUser(CreateUserRequest request) throws NotFoundException {
-        List<Long> rolesFromRequest = request.getRoles();
-        Set<Role> roles = new HashSet<>();
-
-        for (Long roleId : rolesFromRequest) {
-            Role fetchedRole = roleService.findOneRole(roleId);
-            if (fetchedRole != null) {
-                roles.add(fetchedRole);
-            }
+        // Check if the email is already in use
+        Optional<User> existingUser = userRepository.findByEmail(request.getEmail());
+        if (existingUser.isPresent()) {
+            throw new IllegalArgumentException("Email is already in use: " + request.getEmail());
         }
-        User user = User
-                .builder()
+
+        // Ensure the user type is either 'admin' or 'user'
+        String userType = request.getUserType();
+        Role assignedRole;
+
+        if ("admin".equalsIgnoreCase(userType)) {
+            // Assign ADMIN role if userType is 'admin'
+            assignedRole = roleService.findByRoleName("ADMIN");
+        } else if ("user".equalsIgnoreCase(userType)) {
+            // Assign USER role if userType is 'user' (or default to USER if not specified)
+            assignedRole = roleService.findByRoleName("USER");
+        } else {
+            throw new IllegalArgumentException("Invalid user type provided. Must be either 'admin' or 'user'.");
+        }
+
+        // Create a set of roles containing only the primary role
+        Set<Role> roles = new HashSet<>();
+        roles.add(assignedRole);
+
+        // Create user entity
+        User user = User.builder()
+                .first_name(request.getFirst_name())
+                .last_name(request.getLast_name())
                 .email(request.getEmail())
                 .phone(request.getPhone())
                 .address(request.getAddress())
-                .first_name(request.getFirst_name())
-                .last_name(request.getLast_name())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .roles(roles)
+                .roles(roles)             // Assign only one role (either ADMIN or USER)
+                .primaryRole(assignedRole) // Set the primary role
+//                .enabled(true)             // Set enabled status (or any default)
                 .build();
+
+        // Save and return the user
         return userRepository.save(user);
     }
+
+
+
 
     public User updateUser(CreateUserRequest request, Long id) throws NotFoundException {
         User user = userRepository.findById(id).orElse(null);
