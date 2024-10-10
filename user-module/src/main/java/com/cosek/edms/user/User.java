@@ -1,5 +1,6 @@
 package com.cosek.edms.user;
 
+import com.cosek.edms.files.Files;
 import com.cosek.edms.role.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -11,10 +12,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Entity
@@ -41,6 +39,9 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<Role> roles = new HashSet<>();
+
+    @OneToMany(mappedBy = "responsibleUser", cascade = CascadeType.ALL)
+    private List<Files> files;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
