@@ -1,6 +1,6 @@
 package com.cosek.edms.user;
 
-import com.cosek.edms.permission.Permission;
+import com.cosek.edms.files.Files;
 import com.cosek.edms.role.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -12,10 +12,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Entity
@@ -35,11 +32,6 @@ public class User implements UserDetails {
     private String address;
     private String password;
 
-    // Many-to-One relationship for the main role
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "role_id", referencedColumnName = "id")
-    private Role primaryRole;
-
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_role",
@@ -48,13 +40,15 @@ public class User implements UserDetails {
     )
     private Set<Role> roles = new HashSet<>();
 
+    @OneToMany(mappedBy = "responsibleUser", cascade = CascadeType.ALL)
+    private List<Files> files;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // Gather permissions from roles
         return roles.stream()
-                .flatMap(role -> role.getPermissions().stream()) // Extract permissions from each role
-                .map(permission -> new SimpleGrantedAuthority(permission.getName())) // Convert to GrantedAuthority
-                .collect(Collectors.toSet());
+                .flatMap(role -> role.getPermissions().stream())
+                .map(permission -> new SimpleGrantedAuthority(permission.getName()))
+                .collect(Collectors.toList());
     }
 
     @Override
