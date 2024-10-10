@@ -1,5 +1,6 @@
 package com.cosek.edms.user;
 
+import com.cosek.edms.casestudy.CaseStudy;
 import com.cosek.edms.files.Files;
 import com.cosek.edms.role.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -50,6 +51,11 @@ public class User implements UserDetails {
                 .map(permission -> new SimpleGrantedAuthority(permission.getName()))
                 .collect(Collectors.toList());
     }
+
+    // Many-to-many relationship with case studies
+    @ManyToMany(mappedBy = "users")
+    @JsonIgnore
+    private Set<CaseStudy> caseStudies = new HashSet<>();
 
     @Override
     public String getPassword() {

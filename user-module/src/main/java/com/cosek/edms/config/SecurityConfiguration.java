@@ -48,10 +48,56 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(request ->
                         request.requestMatchers(AUTH_ROUTE)
                                 .permitAll()
-                                .requestMatchers(HttpMethod.POST, "/api/v1/users/**").hasAnyAuthority(CREATE_USER, CREATE_ROLE, CREATE_PERMISSION)
-                                .requestMatchers(HttpMethod.GET, "/api/v1/users/**").hasAnyAuthority(READ_USER, READ_ROLE, READ_PERMISSION)
-                                .requestMatchers(HttpMethod.PUT, "/api/v1/users/**").hasAnyAuthority(UPDATE_USER, UPDATE_ROLE, UPDATE_PERMISSION)
-                                .requestMatchers(HttpMethod.DELETE, "/api/v1/users/**").hasAnyAuthority(DELETE_USER, DELETE_ROLE, DELETE_PERMISSION)
+                                // User permissions
+                                .requestMatchers(HttpMethod.GET, "/api/v1/users","/api/v1/users/{id}").hasAuthority(READ_USER)
+                                .requestMatchers(HttpMethod.POST, "/api/v1/users/create-users").hasAuthority(CREATE_USER)
+                                .requestMatchers(HttpMethod.PUT, "/api/v1/users/{userID}/roles/{roleID}","/api/v1/users/update/{id}","/api/v1/users/roles-update/{id}").hasAuthority(UPDATE_USER)
+                                .requestMatchers(HttpMethod.DELETE, "/api/v1/users/{id}").hasAuthority(DELETE_USER)
+
+                                // Role permissions
+                                .requestMatchers(HttpMethod.GET, "/api/v1/roles/all").hasAuthority(READ_ROLE)
+                                .requestMatchers(HttpMethod.POST, "/api/v1/roles/create-roles").hasAuthority(CREATE_ROLE)
+                                .requestMatchers(HttpMethod.PUT, "/api/v1/roles/add-permission").hasAuthority(UPDATE_ROLE)
+                                .requestMatchers(HttpMethod.PUT, "/api/v1/roles/remove-permission").hasAuthority(UPDATE_ROLE)
+                                .requestMatchers(HttpMethod.PUT, "/api/v1/roles/update-permissions").hasAuthority(UPDATE_ROLE)
+                                .requestMatchers(HttpMethod.DELETE, "/api/v1/roles/**").hasAuthority(DELETE_ROLE)
+
+                                // Permission management permissions
+                                .requestMatchers(HttpMethod.GET, "/api/v1/permissions/all").hasAuthority(READ_PERMISSION)
+                                .requestMatchers(HttpMethod.POST, "/api/v1/permissions/add").hasAuthority(CREATE_PERMISSION)
+                                .requestMatchers(HttpMethod.POST, "/api/v1/permissions/remove").hasAuthority(DELETE_PERMISSION)
+
+                                // Case Studies permissions
+                                .requestMatchers(HttpMethod.GET, "/api/v1/case-studies/all","/api/v1/case-studies/{id}").hasAuthority(READ_CASESTUDIES)
+                                .requestMatchers(HttpMethod.POST, "/api/v1/case-studies/create-cases").hasAuthority(CREATE_CASESTUDIES)
+                                .requestMatchers(HttpMethod.PUT, "/api/v1/case-studies/assign-user","/api/v1/case-studies/update/{id}").hasAuthority(UPDATE_CASESTUDIES)
+                                .requestMatchers(HttpMethod.DELETE, "/api/v1/case-studies/delete/{id}").hasAuthority(DELETE_CASESTUDIES)
+
+                                // Files permissions
+                                .requestMatchers(HttpMethod.GET, "/api/v1/files/{id}").hasAuthority(READ_FILES)
+                                .requestMatchers(HttpMethod.GET, "/api/v1/files/all").hasAuthority(READ_FILES)
+                                .requestMatchers(HttpMethod.POST, "/api/v1/files/").hasAuthority(CREATE_FILES)
+                                .requestMatchers(HttpMethod.PUT, "/api/v1/files/update/{id}").hasAuthority(UPDATE_FILES)
+                                .requestMatchers(HttpMethod.PUT, "/api/v1/files/update-multiple").hasAuthority(UPDATE_FILES)
+                                .requestMatchers(HttpMethod.DELETE, "/api/v1/files/delete/{id}").hasAuthority(DELETE_FILES)
+                                .requestMatchers(HttpMethod.DELETE, "/api/v1/files/delete-multiple").hasAuthority(DELETE_FILES)
+
+
+                                // Folders permissions
+                                .requestMatchers(HttpMethod.GET, "/api/v1/folders/{id}").hasAuthority(READ_FOLDERS)
+                                .requestMatchers(HttpMethod.GET, "/api/v1/folders/all").hasAuthority(READ_FOLDERS)
+                                .requestMatchers(HttpMethod.POST, "/api/v1/folders/add").hasAuthority(CREATE_FOLDERS)
+                                .requestMatchers(HttpMethod.PUT, "/api/v1/folders/update/{id}").hasAuthority(UPDATE_FOLDERS)
+                                .requestMatchers(HttpMethod.PUT, "/api/v1/folders/update-multiple").hasAuthority(UPDATE_FOLDERS)
+                                .requestMatchers(HttpMethod.DELETE, "/api/v1/folders/delete/{id}").hasAuthority(DELETE_FOLDERS)
+                                .requestMatchers(HttpMethod.DELETE, "/api/v1/folders/delete-multiple").hasAuthority(DELETE_FOLDERS)
+
+                                // Dashboard permissions
+                                .requestMatchers(HttpMethod.GET, "/api/v1/dashboard/**").hasAuthority(READ_DASHBOARD)
+                                .requestMatchers(HttpMethod.POST, "/api/v1/dashboard").hasAuthority(CREATE_DASHBOARD)
+                                .requestMatchers(HttpMethod.PUT, "/api/v1/dashboard/**").hasAuthority(UPDATE_DASHBOARD)
+                                .requestMatchers(HttpMethod.DELETE, "/api/v1/dashboard/**").hasAuthority(DELETE_DASHBOARD)
+
                                 .requestMatchers(HttpMethod.POST, USER_ROUTE).hasAuthority(CREATE_USER)
                                 .requestMatchers(HttpMethod.GET, USER_ROUTE).hasAuthority(READ_USER)
                                 .requestMatchers(HttpMethod.DELETE, USER_ROUTE).hasAuthority(DELETE_USER)

@@ -15,7 +15,7 @@ public class FilesController {
 
     private final FilesService filesService;
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<Files> addFile(@RequestBody Files file) {
         Files createdFile = filesService.addFile(file);
         return ResponseEntity.ok(createdFile);
@@ -28,31 +28,31 @@ public class FilesController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @GetMapping
+    @GetMapping("all")
     public ResponseEntity<List<Files>> getAllFiles() {
         List<Files> files = filesService.getAllFiles();
         return ResponseEntity.ok(files);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<Files> updateFile(@PathVariable Long id, @RequestBody Files updatedFile) {
         Files file = filesService.updateFile(id, updatedFile);
         return ResponseEntity.ok(file);
     }
 
-    @PutMapping
+    @PutMapping("/update-multiple")
     public ResponseEntity<List<Files>> updateMultipleFiles(@RequestBody List<Files> files) {
         List<Files> updatedFiles = filesService.updateMultipleFiles(files);
         return ResponseEntity.ok(updatedFiles);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteFile(@PathVariable Long id) {
         filesService.deleteFile(id);
         return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping
+    @DeleteMapping("/delete-multiple")
     public ResponseEntity<Void> deleteMultipleFiles(@RequestBody List<Long> ids) {
         filesService.deleteMultipleFiles(ids);
         return ResponseEntity.noContent().build();

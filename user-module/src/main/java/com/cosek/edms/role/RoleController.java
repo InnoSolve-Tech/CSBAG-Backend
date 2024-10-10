@@ -3,6 +3,7 @@ package com.cosek.edms.role;
 import com.cosek.edms.exception.NotFoundException;
 import com.cosek.edms.permission.Permission;
 import com.cosek.edms.role.Models.MultipleUpdate;
+import com.cosek.edms.role.Models.PermissionUpdateRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -18,58 +19,49 @@ import java.util.stream.Collectors;
 public class RoleController {
     private final RoleService roleService;
 
-    @PostMapping("/roles")
+    // Create a new role
+    @PostMapping("/roles/create-roles")
     public ResponseEntity<Role> createRole(@RequestBody Role role) {
         Role response = roleService.createRole(role);
         return new ResponseEntity<>(response, HttpStatusCode.valueOf(200));
     }
 
-    @GetMapping("/roles")
+    // List all roles
+    @GetMapping("/roles/all")
     public ResponseEntity<List<Role>> listRoles() {
         List<Role> response = roleService.listRoles();
         return new ResponseEntity<>(response, HttpStatusCode.valueOf(200));
     }
 
-    @PutMapping("roles/{roleID}/add/{permID}")
-    public ResponseEntity<Role> addPermissionToRole(@PathVariable Long roleID, @PathVariable Long permID) throws NotFoundException {
-        Role response = roleService.addPermissionToRole(roleID, permID);
+    // Add a permission to a role using @RequestBody
+    @PutMapping("/roles/add-permission")
+    public ResponseEntity<Role> addPermissionToRole(
+            @RequestBody PermissionUpdateRequest request) throws NotFoundException {
+        Role response = roleService.addPermissionToRole(request.getRoleId(), request.getPermissionId());
         return new ResponseEntity<>(response, HttpStatusCode.valueOf(200));
     }
 
-    @PutMapping("roles/{roleID}/remove/{permID}")
-    public ResponseEntity<Role> removePermissionToRole(@PathVariable Long roleID, @PathVariable Long permID) throws NotFoundException {
-        Role response = roleService.removePermissionFromRole(roleID, permID);
+    // Remove a permission from a role using @RequestBody
+    @PutMapping("/roles/remove-permission")
+    public ResponseEntity<Role> removePermissionFromRole(
+            @RequestBody PermissionUpdateRequest request) throws NotFoundException {
+        Role response = roleService.removePermissionFromRole(request.getRoleId(), request.getPermissionId());
         return new ResponseEntity<>(response, HttpStatusCode.valueOf(200));
     }
 
-    @PutMapping("roles/{roleId}/update-permissions")
-    public ResponseEntity<Role> addMultiplePermissions(@PathVariable Long roleId, @RequestBody MultipleUpdate update) {
+    @PutMapping("/roles/update-permissions")
+    public ResponseEntity<Role> addMultiplePermissions(
+            @RequestBody MultipleUpdate update) {
         try {
-            // Extract permission IDs from the list of permissions
-            List<Long> permissionIds = update.permissions.stream()
+            List<Long> permissionIds = update.getPermissions().stream()
                     .map(Permission::getId)
                     .collect(Collectors.toList());
 
-            // Pass the list of IDs to the service method
-            return ResponseEntity.ok(roleService.addMultiplePermissions(roleId, update.status, permissionIds));
+            return ResponseEntity.ok(roleService.addMultiplePermissions(update.getRoleId(), update.isStatus(), permissionIds));
         } catch (NotFoundException e) {
             throw new RuntimeException(e);
         }
     }
 
-    @PostMapping("/{roleName}/permissions/add")
-    public ResponseEntity<Role> addPermissionToRole(
-            @PathVariable String roleName,
-            @RequestParam String permissionName) {
-        Role updatedRole = roleService.addPermissionToRole(roleName, permissionName);
-        return ResponseEntity.ok(updatedRole);
-    }
 
-    @PostMapping("/{roleName}/permissions/remove")
-    public ResponseEntity<Role> removePermissionFromRole(
-            @PathVariable String roleName,
-            @RequestParam String permissionName) {
-        Role updatedRole = roleService.removePermissionFromRole(roleName, permissionName);
-        return ResponseEntity.ok(updatedRole);
-    }
 }

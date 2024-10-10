@@ -57,7 +57,6 @@ public class UserService {
                 .address(request.getAddress())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .roles(roles)             // Assign only one role (either ADMIN or USER)
-                .primaryRole(assignedRole) // Set the primary role
 //                .enabled(true)             // Set enabled status (or any default)
                 .build();
 

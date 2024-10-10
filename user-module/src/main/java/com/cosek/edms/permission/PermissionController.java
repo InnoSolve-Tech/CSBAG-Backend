@@ -25,20 +25,20 @@ public class PermissionController {
     private RoleService roleService;
 
 
-    @GetMapping("/")
+    @GetMapping("/all")
     public ResponseEntity<List<Permission>> getAllPermissions() {
         return ResponseEntity.ok(permissionService.getAllPermissions());
     }
 
     // Add Permission to Role
-    @PostMapping("/permissions/add")
+    @PostMapping("/add")
     public ResponseEntity<Role> addPermissionToRole(@RequestBody PermissionRequest permissionRequest) {
         Role updatedRole = roleService.addPermissionToRole(permissionRequest.getRoleName(), permissionRequest.getPermissionName());
         return ResponseEntity.ok(updatedRole);
     }
 
     // Remove Permission from Role
-    @PostMapping("/permissions/remove")
+    @PostMapping("/remove")
     public ResponseEntity<Role> removePermissionFromRole(@RequestBody PermissionRequest permissionRequest) {
         Role updatedRole = roleService.removePermissionFromRole(permissionRequest.getRoleName(), permissionRequest.getPermissionName());
         return ResponseEntity.ok(updatedRole);
