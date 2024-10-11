@@ -23,8 +23,10 @@ public class CaseStudy {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
     private String description;
+
     @OneToMany(mappedBy = "caseStudy", cascade = CascadeType.ALL)
     private List<Files> files;
 

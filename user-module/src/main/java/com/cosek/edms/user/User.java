@@ -1,6 +1,7 @@
 package com.cosek.edms.user;
 
 import com.cosek.edms.casestudy.CaseStudy;
+import com.cosek.edms.departments.Department;
 import com.cosek.edms.files.Files;
 import com.cosek.edms.role.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -32,6 +33,10 @@ public class User implements UserDetails {
     private String phone;
     private String address;
     private String password;
+
+    @ManyToOne(cascade = CascadeType.DETACH)
+    @JoinColumn(name = "department_id", referencedColumnName = "id")
+    private Department department;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
