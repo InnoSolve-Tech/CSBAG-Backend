@@ -20,7 +20,7 @@ import java.util.List;
 public class DepartmentController {
     private final DepartmentService departmentService;
 
-    @PostMapping("/createDepartment")
+    @PostMapping("/create-department")
     public ResponseEntity<Department> createDepartment(@RequestBody Department department) {
         Department newDepartment = departmentService.createDepartment(department);
         URI location = ServletUriComponentsBuilder

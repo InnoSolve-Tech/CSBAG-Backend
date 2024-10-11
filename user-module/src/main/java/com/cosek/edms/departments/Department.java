@@ -1,8 +1,14 @@
 package com.cosek.edms.departments;
 
 import com.cosek.edms.user.User;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -14,6 +20,8 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "departments")
+@EntityListeners(AuditingEntityListener.class)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Department {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,37 +34,25 @@ public class Department {
     @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
     private Set<User> users = new HashSet<>();
 
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    @CreatedDate
+    @Column(name = "createdDate", nullable = false, updatable = false)
+    private LocalDateTime createdDate;
 
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+    @LastModifiedDate
+    @Column(name="lastModifiedDate", nullable = true)
+    private LocalDateTime lastModifiedDateTime;
 
-    @PrePersist
-    protected void onCreate() {
-        createdAt = LocalDateTime.now();
-    }
+    @LastModifiedBy
+    @Column(name = "lastModifiedBy", nullable = true)
+    private Long lastModifiedBy;
 
-    @PreUpdate
-    protected void onUpdate() {
-        updatedAt = LocalDateTime.now();
-    }
+    @CreatedBy
+    @Column(name="createdBy", nullable = false, updatable = false)
+    private Long createdBy;
 
 
     public Long getDepartmentId(){
         return id;
-    }
-
-    @Override
-    public String toString() {
-        return "Department{" +
-                "id=" + id +
-                ", departmentName='" + departmentName +'\'' +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" +updatedAt +
-                ", users=" + users +
-                '}';
-
     }
 
 }
