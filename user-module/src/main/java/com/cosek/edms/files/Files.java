@@ -33,6 +33,7 @@ public class Files {
     private String PIDInfant;
     private String PIDMother;
     private int boxNumber;
+    private String status;
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User responsibleUser;
