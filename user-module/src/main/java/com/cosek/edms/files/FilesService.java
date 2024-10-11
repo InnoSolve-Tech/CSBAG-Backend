@@ -44,7 +44,9 @@ public class FilesService {
         User loggedInUser = getLoggedInUser();
         return filesRepository.findById(id)
                 .map(file -> {
-                    file.setFileName(updatedFile.getFileName());
+                    file.setPIDInfant(updatedFile.getPIDInfant());
+                    file.setPIDMother(updatedFile.getPIDMother());
+                    file.setBoxNumber(updatedFile.getBoxNumber());
                     file.setFolder(updatedFile.getFolder());
                     file.setResponsibleUser(loggedInUser);
                     return filesRepository.save(file);

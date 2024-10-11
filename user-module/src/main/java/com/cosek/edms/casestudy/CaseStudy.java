@@ -1,5 +1,6 @@
 package com.cosek.edms.casestudy;
 
+import com.cosek.edms.files.Files;
 import com.cosek.edms.user.User;
 import com.cosek.edms.role.Role;
 import jakarta.persistence.*;
@@ -9,6 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -21,9 +23,10 @@ public class CaseStudy {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
     private String description;
+    @OneToMany(mappedBy = "caseStudy", cascade = CascadeType.ALL)
+    private List<Files> files;
 
     // Many-to-many relationship with users
     @ManyToMany
