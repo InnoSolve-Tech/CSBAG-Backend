@@ -1,6 +1,7 @@
 package com.cosek.edms.permission;
 
 import com.cosek.edms.permission.Models.PermissionRequest;
+import com.cosek.edms.permission.Models.RoleRequest;
 import com.cosek.edms.role.Role;
 import com.cosek.edms.role.RoleService;
 import com.cosek.edms.user.User;
@@ -28,6 +29,12 @@ public class PermissionController {
     @GetMapping("/all")
     public ResponseEntity<List<Permission>> getAllPermissions() {
         return ResponseEntity.ok(permissionService.getAllPermissions());
+    }
+
+    @PostMapping("/role")
+    public ResponseEntity<List<Permission>> getPermissionsByRole(@RequestBody RoleRequest roleRequest) {
+        List<Permission> permissions = permissionService.getPermissionsByRole(roleRequest.getRoleName());
+        return ResponseEntity.ok(permissions);
     }
 
     // Add Permission to Role

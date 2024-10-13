@@ -1,6 +1,8 @@
 package com.cosek.edms.permission;
 
 import com.cosek.edms.exception.NotFoundException;
+import com.cosek.edms.role.Role;
+import com.cosek.edms.role.RoleRepository;
 import com.cosek.edms.user.User;
 import com.cosek.edms.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,9 @@ public class PermissionService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     public Permission createPermission(Permission permission) {
         return permissionRepository.save(permission);
@@ -72,6 +77,10 @@ public class PermissionService {
     public Permission findByName(String name) throws NotFoundException {
         return permissionRepository.findByName(name)
                 .orElseThrow(() -> new NotFoundException("Permission with name: " + name + " not found"));
+    }
+
+    public List<Permission> getPermissionsByRole(String roleName) {
+        return permissionRepository.findPermissionsByRole(roleName);
     }
 
 }
