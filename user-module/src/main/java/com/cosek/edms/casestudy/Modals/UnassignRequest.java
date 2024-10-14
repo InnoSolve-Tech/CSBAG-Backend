@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class AssignUserRequest {
+public class UnassignRequest {
     private Long caseStudyId;
-    private List<Long> userId;
+    private Long userId;
 }

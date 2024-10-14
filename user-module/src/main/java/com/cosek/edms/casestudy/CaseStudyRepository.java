@@ -1,9 +1,13 @@
 package com.cosek.edms.casestudy;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public interface CaseStudyRepository extends JpaRepository<CaseStudy, Long> {
-    // Custom query methods can be added here if needed
-}
+    @Query(value = "SELECT user_id FROM case_study_user WHERE case_study_id = :caseStudyId", nativeQuery = true)
+    List<Long> findAssignedUserIdsByCaseStudyId(@Param("caseStudyId") Long caseStudyId);}

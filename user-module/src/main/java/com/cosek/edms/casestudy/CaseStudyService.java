@@ -9,10 +9,7 @@ import com.cosek.edms.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class CaseStudyService {
@@ -77,24 +74,69 @@ public class CaseStudyService {
                 .orElseThrow(() -> new NotFoundException("Role not found"));
     }
 
-    public CaseStudy assignUserToCaseStudy(Long caseStudyId, Long userId) throws NotFoundException {
+    public CaseStudy assignUsersToCaseStudy(Long caseStudyId, List<Long> userIds) throws NotFoundException {
         Optional<CaseStudy> caseStudyOptional = caseStudyRepository.findById(caseStudyId);
         if (caseStudyOptional.isEmpty()) {
             throw new NotFoundException("Case Study not found");
         }
 
-        Optional<User> userOptional = userRepository.findById(userId);
-        if (userOptional.isEmpty()) {
-            throw new NotFoundException("User not found");
+        CaseStudy caseStudy = caseStudyOptional.get();
+        List<User> usersToAdd = new ArrayList<>();
+
+        for (Long userId : userIds) {
+            Optional<User> userOptional = userRepository.findById(userId);
+            if (userOptional.isEmpty()) {
+                throw new NotFoundException("User with ID " + userId + " not found");
+            }
+            usersToAdd.add(userOptional.get());
         }
 
-        CaseStudy caseStudy = caseStudyOptional.get();
-        User user = userOptional.get();
-
-        // Add the user to the case study's set of users
-        caseStudy.getUsers().add(user);
+        // Add all users to the case study's set of users
+        caseStudy.getUsers().addAll(usersToAdd);
 
         // Persist the updated case study
         return caseStudyRepository.save(caseStudy);
     }
+
+    public CaseStudy unassignUsersFromCaseStudy(Long caseStudyId, Long userId) throws NotFoundException {
+        // Fetch the CaseStudy by ID
+        Optional<CaseStudy> caseStudyOptional = caseStudyRepository.findById(caseStudyId);
+        if (caseStudyOptional.isEmpty()) {
+            throw new NotFoundException("Case Study not found");
+        }
+
+        CaseStudy caseStudy = caseStudyOptional.get();
+
+        // Fetch the User by ID
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (userOptional.isEmpty()) {
+            throw new NotFoundException("User with ID " + userId + " not found");
+        }
+
+        User userToRemove = userOptional.get();
+
+        // Check if the user is assigned to the case study
+        if (!caseStudy.getUsers().contains(userToRemove)) {
+            throw new NotFoundException("User with ID " + userId + " is not assigned to this case study");
+        }
+
+        // Remove the user from the case study's set of users
+        caseStudy.getUsers().remove(userToRemove);
+
+        // Persist the updated case study
+        return caseStudyRepository.save(caseStudy);
+    }
+
+    public List<User> getAssignedUsers(Long caseStudyId) throws NotFoundException {
+        // Find user IDs assigned to the case study
+        List<Long> userIds = caseStudyRepository.findAssignedUserIdsByCaseStudyId(caseStudyId);
+
+        if (userIds.isEmpty()) {
+            throw new NotFoundException("No users assigned to this case study");
+        }
+
+        // Fetch the User entities based on the user IDs
+        return userRepository.findAllById(userIds);
+    }
+
 }

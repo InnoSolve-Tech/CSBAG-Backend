@@ -1,16 +1,20 @@
 package com.cosek.edms.casestudy;
 
 import com.cosek.edms.casestudy.Modals.AssignUserRequest;
+import com.cosek.edms.casestudy.Modals.CaseStudyAssigned;
 import com.cosek.edms.casestudy.Modals.CaseStudyRequest;
+import com.cosek.edms.casestudy.Modals.UnassignRequest;
 import com.cosek.edms.exception.NotFoundException;
 import com.cosek.edms.role.Role;
 import com.cosek.edms.role.RoleService;
+import com.cosek.edms.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -71,12 +75,34 @@ public class CaseStudyController {
     @PostMapping("/assign-user")
     public ResponseEntity<?> assignUserToCaseStudy(@RequestBody AssignUserRequest request) {
         try {
-            CaseStudy updatedCaseStudy = caseStudyService.assignUserToCaseStudy(request.getCaseStudyId(), request.getUserId());
+            CaseStudy updatedCaseStudy = caseStudyService.assignUsersToCaseStudy(request.getCaseStudyId(), request.getUserId());
             return ResponseEntity.ok(updatedCaseStudy);
         } catch (NotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to assign user: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/unassign-user")
+    public ResponseEntity<?> unassignUserFromCaseStudy(@RequestBody UnassignRequest request) {
+        try {
+            CaseStudy updatedCaseStudy = caseStudyService.unassignUsersFromCaseStudy(request.getCaseStudyId(), request.getUserId());
+            return ResponseEntity.ok(updatedCaseStudy);
+        } catch (NotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to unassign user: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/assigned-users")
+    public ResponseEntity<?> getAssignedUsers(@RequestBody CaseStudyAssigned request) {
+        try {
+            List<User> assignedUsers = caseStudyService.getAssignedUsers(request.getCaseStudyId());
+            return ResponseEntity.ok(assignedUsers);
+        } catch (NotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
 
