@@ -30,25 +30,7 @@ public class UserService {
             throw new IllegalArgumentException("Email is already in use: " + request.getEmail());
         }
 
-        // Ensure the user type is either 'admin' or 'user'
-        String userType = request.getUserType();
-        Role assignedRole;
-
-        if ("admin".equalsIgnoreCase(userType)) {
-            // Assign ADMIN role if userType is 'admin'
-            assignedRole = roleService.findByRoleName("ADMIN");
-        } else if ("user".equalsIgnoreCase(userType)) {
-            // Assign USER role if userType is 'user' (or default to USER if not specified)
-            assignedRole = roleService.findByRoleName("USER");
-        } else {
-            throw new IllegalArgumentException("Invalid user type provided. Must be either 'admin' or 'user'.");
-        }
-
-        // Create a set of roles containing only the primary role
-        Set<Role> roles = new HashSet<>();
-        roles.add(assignedRole);
-
-        // Create user entity
+        // Create user entity without assigning a role
         User user = User.builder()
                 .first_name(request.getFirst_name())
                 .last_name(request.getLast_name())
@@ -56,16 +38,33 @@ public class UserService {
                 .phone(request.getPhone())
                 .address(request.getAddress())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .roles(roles)             // Assign only one role (either ADMIN or USER)
-//                .enabled(true)             // Set enabled status (or any default)
+                .roles(Collections.emptySet()) // No roles initially
                 .build();
 
         // Save and return the user
         return userRepository.save(user);
     }
 
+    public User assignUserType(Long userId, String userType) throws NotFoundException {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException("User not found"));
 
+        // Find the role based on userType
+        Role assignedRole;
+        if ("admin".equalsIgnoreCase(userType)) {
+            assignedRole = roleService.findByRoleName("ADMIN");
+        } else {
+            assignedRole = roleService.findByRoleName("USER");
+        }
 
+        // Assign the role to the user
+        Set<Role> roles = user.getRoles();
+        roles.add(assignedRole);
+        user.setRoles(roles);
+
+        // Save the updated user with the assigned role
+        return userRepository.save(user);
+    }
 
     public User updateUser(CreateUserRequest request, Long id) throws NotFoundException {
         User user = userRepository.findById(id).orElse(null);

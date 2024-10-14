@@ -4,12 +4,17 @@ import com.cosek.edms.exception.NotFoundException;
 import com.cosek.edms.permission.Permission;
 import com.cosek.edms.role.Models.MultipleUpdate;
 import com.cosek.edms.role.Models.PermissionUpdateRequest;
+import com.cosek.edms.role.Models.UserRoleRequest;
+import com.cosek.edms.user.User;
+import com.cosek.edms.user.UserRepository;
+import com.cosek.edms.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -18,6 +23,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class RoleController {
     private final RoleService roleService;
+    private final UserService userService;
+
 
     // Create a new role
     @PostMapping("/roles/create-roles")
@@ -58,6 +65,25 @@ public class RoleController {
                     .collect(Collectors.toList());
 
             return ResponseEntity.ok(roleService.addMultiplePermissions(update.getRoleId(), update.isStatus(), permissionIds));
+        } catch (NotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    @PostMapping("/assign-userType")
+    public ResponseEntity<User> assignUserType(@RequestBody UserRoleRequest request) {
+        try {
+            Long userId = request.getUserId();
+            String userType = request.getUserType();
+
+            if (userType == null || (!userType.equalsIgnoreCase("admin") && !userType.equalsIgnoreCase("user"))) {
+                throw new IllegalArgumentException("Invalid user type. Must be 'admin' or 'user'.");
+            }
+
+            // Assign role based on userType
+            User updatedUser = userService.assignUserType(userId, userType);
+            return new ResponseEntity<>(updatedUser, HttpStatusCode.valueOf(200));
         } catch (NotFoundException e) {
             throw new RuntimeException(e);
         }
