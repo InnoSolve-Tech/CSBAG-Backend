@@ -1,7 +1,5 @@
 package com.cosek.edms.files;
 
-
-import com.cosek.edms.requests.Requests;
 import com.cosek.edms.casestudy.CaseStudy;
 import com.cosek.edms.folders.Folders;
 import com.cosek.edms.user.User;
@@ -18,7 +16,6 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 @Table
@@ -27,11 +24,15 @@ import java.util.List;
 @Entity
 @Builder
 @EntityListeners(AuditingEntityListener.class)
-@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonIgnoreProperties(ignoreUnknown = true) // Handles unknown fields
 public class Files {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    // Add fileName which is missing
+    private String fileName;
+
     private String PIDInfant;
     private String PIDMother;
     private int boxNumber;
@@ -39,20 +40,25 @@ public class Files {
 
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JsonIgnoreProperties({"files"}) // Prevents looping with User entity
     private User responsibleUser;
 
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "folder_id", referencedColumnName = "id")
+    @JsonIgnoreProperties({"files"}) // Prevents looping with Folders entity
     private Folders folder;
+
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "case_study_id", referencedColumnName = "id")
+    @JsonIgnoreProperties({"files"}) // Prevents looping with CaseStudy entity
     private CaseStudy caseStudy;
+
     @CreatedDate
     @Column(name = "createdDate", nullable = false, updatable = false)
     private LocalDateTime createdDate;
 
     @LastModifiedDate
-    @Column(name="lastModifiedDate", nullable = true)
+    @Column(name = "lastModifiedDate", nullable = true)
     private LocalDateTime lastModifiedDateTime;
 
     @LastModifiedBy
@@ -62,8 +68,4 @@ public class Files {
     @CreatedBy
     @Column(name="createdBy", nullable = false, updatable = false)
     private Long createdBy;
-
-    @OneToMany(mappedBy="files")
-    private List<Requests> requests;
-
 }

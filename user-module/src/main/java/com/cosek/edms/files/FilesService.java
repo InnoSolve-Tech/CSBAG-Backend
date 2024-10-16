@@ -1,6 +1,10 @@
 package com.cosek.edms.files;
 
+import com.cosek.edms.casestudy.CaseStudy;
+import com.cosek.edms.casestudy.CaseStudyRepository;
 import com.cosek.edms.exception.ResourceNotFoundException;
+import com.cosek.edms.folders.Folders;
+import com.cosek.edms.folders.FoldersRepository;
 import com.cosek.edms.user.User;
 import com.cosek.edms.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +21,9 @@ public class FilesService {
 
     private final FilesRepository filesRepository;
     private final UserRepository userRepository;
+    private final CaseStudyRepository caseStudyRepository;
+    private final FoldersRepository foldersRepository;
+
 
     private User getLoggedInUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -66,5 +73,27 @@ public class FilesService {
 
     public void deleteMultipleFiles(List<Long> ids) {
         filesRepository.deleteAllById(ids);
+    }
+
+    public Files assignFileToCaseStudy(Long fileId, Long caseStudyId) {
+        Files file = filesRepository.findById(fileId)
+                .orElseThrow(() -> new RuntimeException("File not found"));
+
+        CaseStudy caseStudy = caseStudyRepository.findById(caseStudyId)
+                .orElseThrow(() -> new RuntimeException("Case study not found"));
+
+        file.setCaseStudy(caseStudy);
+        return filesRepository.save(file);
+    }
+
+    public Files assignFileToFolder(Long fileId, Long folderId) {
+        Files file = filesRepository.findById(fileId)
+                .orElseThrow(() -> new RuntimeException("File not found"));
+
+        Folders folder = foldersRepository.findById(folderId)
+                .orElseThrow(() -> new RuntimeException("Folder not found"));
+
+        file.setFolder(folder);
+        return filesRepository.save(file);
     }
 }
