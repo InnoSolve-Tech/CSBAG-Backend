@@ -29,10 +29,6 @@ public class Files {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    // Add fileName which is missing
-    private String fileName;
-
     private String PIDInfant;
     private String PIDMother;
     private int boxNumber;
