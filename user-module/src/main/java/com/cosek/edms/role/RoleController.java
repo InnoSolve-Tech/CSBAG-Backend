@@ -9,6 +9,7 @@ import com.cosek.edms.user.User;
 import com.cosek.edms.user.UserRepository;
 import com.cosek.edms.user.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -72,22 +73,23 @@ public class RoleController {
 
 
     @PostMapping("/assign-userType")
-    public ResponseEntity<User> assignUserType(@RequestBody UserRoleRequest request) {
+    public ResponseEntity<?> assignUserTypes(@RequestBody UserRoleRequest request) {
         try {
             Long userId = request.getUserId();
-            String userType = request.getUserType();
+            List<String> userTypes = request.getUserTypes();
 
-            if (userType == null || (!userType.equalsIgnoreCase("admin") && !userType.equalsIgnoreCase("user"))) {
-                throw new IllegalArgumentException("Invalid user type. Must be 'admin' or 'user'.");
+            if (userTypes == null || userTypes.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User types list cannot be empty.");
             }
 
-            // Assign role based on userType
-            User updatedUser = userService.assignUserType(userId, userType);
-            return new ResponseEntity<>(updatedUser, HttpStatusCode.valueOf(200));
+            // Assign multiple user types and return the updated user
+            User updatedUser = userService.assignUserTypes(userId, userTypes);
+            return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (NotFoundException e) {
-            throw new RuntimeException(e);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
         }
     }
-
 
 }

@@ -21,6 +21,7 @@ public class FilesController {
         return ResponseEntity.ok(createdFile);
     }
 
+
     @GetMapping("/{id}")
     public ResponseEntity<Files> getFileById(@PathVariable Long id) {
         Optional<Files> file = filesService.getFileById(id);
@@ -56,5 +57,23 @@ public class FilesController {
     public ResponseEntity<Void> deleteMultipleFiles(@RequestBody List<Long> ids) {
         filesService.deleteMultipleFiles(ids);
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{fileId}/assign-case-study/{caseStudyId}")
+    public ResponseEntity<Files> assignFileToCaseStudy(
+            @PathVariable Long fileId,
+            @PathVariable Long caseStudyId) {
+
+        Files updatedFile = filesService.assignFileToCaseStudy(fileId, caseStudyId);
+        return ResponseEntity.ok(updatedFile);
+    }
+
+    @PutMapping("/{fileId}/assign-folder/{folderId}")
+    public ResponseEntity<Files> assignFileToFolder(
+            @PathVariable Long fileId,
+            @PathVariable Long folderId) {
+
+        Files updatedFile = filesService.assignFileToFolder(fileId, folderId);
+        return ResponseEntity.ok(updatedFile);
     }
 }

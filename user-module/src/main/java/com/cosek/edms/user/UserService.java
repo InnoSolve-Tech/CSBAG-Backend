@@ -45,24 +45,26 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User assignUserType(Long userId, String userType) throws NotFoundException {
+    public User assignUserTypes(Long userId, List<String> userTypes) throws NotFoundException {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException("User not found"));
 
-        // Find the role based on userType
-        Role assignedRole;
-        if ("admin".equalsIgnoreCase(userType)) {
-            assignedRole = roleService.findByRoleName("ADMIN");
-        } else {
-            assignedRole = roleService.findByRoleName("USER");
+        Set<Role> roles = user.getRoles();
+
+        for (String userType : userTypes) {
+            Role assignedRole;
+            if ("admin".equalsIgnoreCase(userType)) {
+                assignedRole = roleService.findByRoleName("ADMIN");
+            } else if ("user".equalsIgnoreCase(userType)) {
+                assignedRole = roleService.findByRoleName("USER");
+            } else {
+                throw new IllegalArgumentException("Invalid user type: " + userType);
+            }
+
+            roles.add(assignedRole);
         }
 
-        // Assign the role to the user
-        Set<Role> roles = user.getRoles();
-        roles.add(assignedRole);
         user.setRoles(roles);
-
-        // Save the updated user with the assigned role
         return userRepository.save(user);
     }
 
