@@ -31,7 +31,6 @@ public class LoggingService {
                     logging.setType(parts[3].split(" ")[0]); // Extract log level (INFO, DEBUG, etc.)
                     logging.setMessage(parts[3].substring(parts[3].indexOf(" ") + 1));
                 } else if (logging != null) {
-                    // This is a continuation of the last log entry's message
                     logging.setMessage(logging.getMessage() + "\n" + line);
                 }
 

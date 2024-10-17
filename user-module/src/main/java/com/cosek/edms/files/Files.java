@@ -24,13 +24,12 @@ import java.time.LocalDateTime;
 @Entity
 @Builder
 @EntityListeners(AuditingEntityListener.class)
-@JsonIgnoreProperties(ignoreUnknown = true) // Handles unknown fields
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Files {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Add fileName which is missing
     private String fileName;
 
     private String PIDInfant;
@@ -40,17 +39,17 @@ public class Files {
 
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    @JsonIgnoreProperties({"files"}) // Prevents looping with User entity
+    @JsonIgnoreProperties({"files"})
     private User responsibleUser;
 
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "folder_id", referencedColumnName = "id")
-    @JsonIgnoreProperties({"files"}) // Prevents looping with Folders entity
+    @JsonIgnoreProperties({"files"})
     private Folders folder;
 
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "case_study_id", referencedColumnName = "id")
-    @JsonIgnoreProperties({"files"}) // Prevents looping with CaseStudy entity
+    @JsonIgnoreProperties({"files"})
     private CaseStudy caseStudy;
 
     @CreatedDate
