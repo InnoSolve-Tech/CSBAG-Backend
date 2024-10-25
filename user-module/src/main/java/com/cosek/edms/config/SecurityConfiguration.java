@@ -97,6 +97,7 @@ public class SecurityConfiguration {
                                 .requestMatchers(HttpMethod.PUT, "/api/v1/folders/update-multiple").hasAuthority(UPDATE_FOLDERS)
                                 .requestMatchers(HttpMethod.DELETE, "/api/v1/folders/delete/{id}").hasAuthority(DELETE_FOLDERS)
                                 .requestMatchers(HttpMethod.DELETE, "/api/v1/folders/delete-multiple").hasAuthority(DELETE_FOLDERS)
+                                .requestMatchers(HttpMethod.GET, "/api/v1/folders/departments/{departmentId}").hasAuthority(READ_FOLDERS)
 
                                 // Dashboard permissions
                                 .requestMatchers(HttpMethod.GET, "/api/v1/dashboard/**").hasAuthority(READ_DASHBOARD)
