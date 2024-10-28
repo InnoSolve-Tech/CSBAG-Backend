@@ -57,6 +57,7 @@ public class SecurityConfiguration {
 
                                 .requestMatchers(HttpMethod.POST, "/api/v1/departments/create-department").hasAuthority(CREATE_DEPARTMENTS)
                                 .requestMatchers(HttpMethod.POST, "/api/v1/departments/assign-user-to-department").hasAuthority(UPDATE_DEPARTMENTS)
+                                .requestMatchers(HttpMethod.GET, "/api/v1/departments/departmentById/{id}").hasAuthority(READ_DEPARTMENTS)
 
 
                                 // Role permissions

@@ -2,11 +2,14 @@ package com.cosek.edms.folders;
 
 import com.cosek.edms.departments.Department;
 import com.cosek.edms.departments.DepartmentRepository;
+import com.cosek.edms.exception.NotFoundException;
 import com.cosek.edms.exception.ResourceNotFoundException;
+import com.cosek.edms.user.User;
+import com.cosek.edms.user.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.*;
 
 @Service
@@ -16,6 +19,9 @@ public class FoldersService {
     private final FoldersRepository foldersRepository;
 
     private final DepartmentRepository departmentRepository;
+
+    private final UserRepository userRepository;
+
 
 
 
@@ -99,5 +105,14 @@ public class FoldersService {
         Department department = departmentRepository.findById(departmentId)
                 .orElseThrow(() -> new ResourceNotFoundException("Department not found with id: " + departmentId));
         return department.getFolders();
+    }
+
+
+    public List<Folders> getfoldersByUserId(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
+
+        // Get folders for all departments the user belongs to
+        return foldersRepository.findAllByUserId(userId);
     }
 }

@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +31,11 @@ public class DepartmentService {
     public Department getDepartmentById(Long id) throws NotFoundException {
         return departmentRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Department not found with id: " + id));
+    }
+
+    @Transactional(readOnly = true)
+    public List<Department> getDepartmentsByUserId(Long id) {
+        return departmentRepository.findAllByUserId(id);
     }
 
     @Transactional(readOnly = true)
@@ -102,6 +108,25 @@ public class DepartmentService {
         user.setDepartments(currentDepartments);
 
         return userRepository.save(user);
+    }
+
+    public User unassignAllDepartmentsFromUser(Long userId) throws NotFoundException {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException("User not found"));
+
+        // Clear all department assignments
+        user.getDepartments().clear();
+        return userRepository.save(user);
+    }
+
+
+    public List<Long> getDepartmentIdsByUserId(Long userId) throws NotFoundException {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException("User not found"));
+
+        return user.getDepartments().stream()
+                .map(Department::getId)
+                .collect(Collectors.toList());
     }
 
 }

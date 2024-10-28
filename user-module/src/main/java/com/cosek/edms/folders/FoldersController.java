@@ -90,5 +90,10 @@ public class FoldersController {
         }
     }
 
+    @GetMapping("/all/{userId}")
+    public ResponseEntity<List<Folders>> getFoldersByUserDepartments(@PathVariable Long userId) {
+        List<Folders> folders = foldersService.getfoldersByUserId(userId);
+        return ResponseEntity.ok(folders);
+    }
 }
 
