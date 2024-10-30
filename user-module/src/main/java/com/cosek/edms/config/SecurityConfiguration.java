@@ -101,11 +101,6 @@ public class SecurityConfiguration {
                                 .requestMatchers(HttpMethod.GET, "/api/v1/folders/departments/{departmentId}").hasAuthority(READ_FOLDERS)
 
                                 // Dashboard permissions
-                                .requestMatchers(HttpMethod.GET, "/api/v1/dashboard/**").hasAuthority(READ_DASHBOARD)
-                                .requestMatchers(HttpMethod.POST, "/api/v1/dashboard").hasAuthority(CREATE_DASHBOARD)
-                                .requestMatchers(HttpMethod.PUT, "/api/v1/dashboard/**").hasAuthority(UPDATE_DASHBOARD)
-                                .requestMatchers(HttpMethod.DELETE, "/api/v1/dashboard/**").hasAuthority(DELETE_DASHBOARD)
-
                                 .requestMatchers(HttpMethod.POST, USER_ROUTE).hasAuthority(CREATE_USER)
                                 .requestMatchers(HttpMethod.GET, USER_ROUTE).hasAuthority(READ_USER)
                                 .requestMatchers(HttpMethod.DELETE, USER_ROUTE).hasAuthority(DELETE_USER)

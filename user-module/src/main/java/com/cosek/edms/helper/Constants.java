@@ -22,10 +22,10 @@ public class Constants {
     public static final String UPDATE_PERMISSION = "UPDATE_PERMISSION";
 
     // New Dashboard permissions
-    public static final String READ_DASHBOARD = "READ_DASHBOARD";
-    public static final String CREATE_DASHBOARD = "CREATE_DASHBOARD";
-    public static final String UPDATE_DASHBOARD = "UPDATE_DASHBOARD";
-    public static final String DELETE_DASHBOARD = "DELETE_DASHBOARD";
+    public static final String READ_REQUISITION = "READ_REQUISITION";
+    public static final String CREATE_REQUISITION = "CREATE_REQUISITION";
+    public static final String UPDATE_REQUISITION = "UPDATE_REQUISITION";
+    public static final String DELETE_REQUISITION = "DELETE_REQUISITION";
 
     // New Files permissions
     public static final String READ_FILES = "READ_FILES";
@@ -69,7 +69,9 @@ public class Constants {
     public static final String ADMIN_LAST_NAME = "Super";
     public static final String ADMIN_COUNTRY = "Uganda";
     public static final String ADMIN = "ADMIN";
-    public static final String USER = "USER";
+    public static final String OFFICER = "OFFICER";
+    public static final String MANAGER = "MANAGER";
+    public static final String DEPUTY = "DEPUTY";
 
     public static final String SUCCESSFUL_DELETION = "Delete Successful";
     public static final String FAILED_DELETION = "Delete Failed";

@@ -138,6 +138,16 @@ public class RoleService {
         Permission deleteFiles = permissionRepository.findByName("DELETE_FILES")
                 .orElseGet(() -> permissionRepository.save(new Permission(null, "DELETE_FILES", new HashSet<>())));
 
+        Permission readRequisition = permissionRepository.findByName("READ_REQUISITION")
+                .orElseGet(() -> permissionRepository.save(new Permission(null, "READ_REQUISITION", new HashSet<>())));
+        Permission createRequisition  = permissionRepository.findByName("CREATE_REQUISITION")
+                .orElseGet(() -> permissionRepository.save(new Permission(null, "CREATE_REQUISITION", new HashSet<>())));
+        Permission updateRequisition  = permissionRepository.findByName("UPDATE_REQUISITION")
+                .orElseGet(() -> permissionRepository.save(new Permission(null, "UPDATE_REQUISITION", new HashSet<>())));
+        Permission deleteRequisition  = permissionRepository.findByName("DELETE_REQUISITION")
+                .orElseGet(() -> permissionRepository.save(new Permission(null, "DELETE_REQUISITION", new HashSet<>())));
+
+
         // Folders permissions
         Permission readFolders = permissionRepository.findByName("READ_FOLDERS")
                 .orElseGet(() -> permissionRepository.save(new Permission(null, "READ_FOLDERS", new HashSet<>())));
@@ -191,19 +201,45 @@ public class RoleService {
                     return role;
                 });
 
-        Role userRole = roleRepository.findByName("USER")
+        Role officerRole = roleRepository.findByName("OFFICER")
                 .orElseGet(() -> {
                     Role role = new Role();
-                    role.setName("USER");
+                    role.setName("OFFICER");
+                    role.setPermissions(new HashSet<>(Arrays.asList(
+                            readFiles, readFolders, readCaseStudies,createFiles,readDepartment,readRequisition,
+                            createRequisition,updateRequisition,deleteRequisition
+                    )));
+                    return role;
+                });
+
+        Role managerRole = roleRepository.findByName("MANAGER")
+                .orElseGet(() -> {
+                    Role role = new Role();
+                    role.setName("MANAGER");
                     role.setPermissions(new HashSet<>(Arrays.asList(
                             readFiles, readFolders, readCaseStudies,createFiles,readDepartment
                     )));
                     return role;
                 });
 
+        Role deputyRole = roleRepository.findByName("DEPUTY")
+                .orElseGet(() -> {
+                    Role role = new Role();
+                    role.setName("DEPUTY");
+                    role.setPermissions(new HashSet<>(Arrays.asList(
+                            readFiles, readFolders, readCaseStudies,createFiles,readDepartment
+                    )));
+                    return role;
+                });
+
+
         // Save roles
         roleRepository.save(adminRole);
-        roleRepository.save(userRole);
+        roleRepository.save(officerRole);
+        roleRepository.save(managerRole);
+        roleRepository.save(deputyRole);
+
+
     }
 
     public Role addPermissionToRole(String roleName, String permissionName) {

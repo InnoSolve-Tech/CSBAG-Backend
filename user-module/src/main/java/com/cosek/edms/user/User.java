@@ -1,9 +1,6 @@
 package com.cosek.edms.user;
 
-import com.cosek.edms.requests.Requests;
-import com.cosek.edms.casestudy.CaseStudy;
-import com.cosek.edms.departments.Department;
-import com.cosek.edms.files.Files;
+
 import com.cosek.edms.role.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -44,10 +41,6 @@ public class User implements UserDetails {
     private String address;
     private String password;
 
-    @OneToMany(mappedBy="user")
-    @JsonIgnore
-    private List<Requests> requests;
-
     @CreatedDate
     @Column(name = "createdDate", nullable = true, updatable = false)
     private LocalDateTime createdDate;
@@ -64,9 +57,6 @@ public class User implements UserDetails {
     @Column(name="createdBy", nullable = true, updatable = false)
     private Long createdBy;
 
-    @ManyToOne(cascade = CascadeType.DETACH)
-    @JoinColumn(name = "department_id", referencedColumnName = "id")
-    private Department department;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -76,8 +66,6 @@ public class User implements UserDetails {
     )
     private Set<Role> roles = new HashSet<>();
 
-    @OneToMany(mappedBy = "responsibleUser", cascade = CascadeType.ALL)
-    private List<Files> files;
 
     @Override
     @JsonIgnore
@@ -88,10 +76,6 @@ public class User implements UserDetails {
                 .collect(Collectors.toList());
     }
 
-    // Many-to-many relationship with case studies
-    @ManyToMany(mappedBy = "users")
-    @JsonIgnore
-    private Set<CaseStudy> caseStudies = new HashSet<>();
 
     @Override
     public String getPassword() {
@@ -148,9 +132,4 @@ public class User implements UserDetails {
                 '}';
     }
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "user_departments",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "department_id"))
-    private Set<Department> departments = new HashSet<>();
 }
