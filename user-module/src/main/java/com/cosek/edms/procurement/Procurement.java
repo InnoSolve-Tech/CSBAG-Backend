@@ -1,9 +1,7 @@
 package com.cosek.edms.procurement;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.cosek.edms.user.User;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,6 +19,7 @@ public class Procurement {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private Long userId;
 
     private String serviceName;
     private String description;
@@ -33,5 +32,5 @@ public class Procurement {
     private Double amount;
     private LocalDate dateNeeded;
     private String status;
-
+    private String reject;
 }

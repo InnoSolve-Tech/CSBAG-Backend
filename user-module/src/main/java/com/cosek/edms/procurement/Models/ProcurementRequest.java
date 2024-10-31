@@ -16,5 +16,5 @@ public class ProcurementRequest {
     private Double amount;
     private LocalDate dateNeeded;
     private String status;
-
+    private String reject;
 }

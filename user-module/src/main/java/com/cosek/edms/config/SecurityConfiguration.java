@@ -100,6 +100,12 @@ public class SecurityConfiguration {
                                 .requestMatchers(HttpMethod.DELETE, "/api/v1/folders/delete-multiple").hasAuthority(DELETE_FOLDERS)
                                 .requestMatchers(HttpMethod.GET, "/api/v1/folders/departments/{departmentId}").hasAuthority(READ_FOLDERS)
 
+                                .requestMatchers(HttpMethod.GET, "/api/v1/procurement/all").hasAuthority(READ_REQUISITION)
+                                .requestMatchers(HttpMethod.POST, "/api/v1/procurement/create").hasAuthority(CREATE_REQUISITION)
+                                .requestMatchers(HttpMethod.PUT, "/api/v1/procurement/update/{id}").hasAuthority(UPDATE_REQUISITION)
+                                .requestMatchers(HttpMethod.PUT, "/api/v1/procurement/updatestatus/{id}").hasAuthority(UPDATE_REQUISITION)
+
+
                                 // Dashboard permissions
                                 .requestMatchers(HttpMethod.POST, USER_ROUTE).hasAuthority(CREATE_USER)
                                 .requestMatchers(HttpMethod.GET, USER_ROUTE).hasAuthority(READ_USER)

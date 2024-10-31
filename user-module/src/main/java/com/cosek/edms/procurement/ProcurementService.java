@@ -12,6 +12,7 @@ public class ProcurementService {
     @Autowired
     private ProcurementRepository procurementRepository;
 
+
     public Procurement createProcurement(Procurement procurement) {
         return procurementRepository.save(procurement);
     }
