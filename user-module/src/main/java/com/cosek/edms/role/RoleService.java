@@ -195,8 +195,8 @@ public class RoleService {
                     role.setPermissions(new HashSet<>(Arrays.asList(
                             readUser,
                             readFiles, createFiles, updateFiles, deleteFiles,
-                            readFolders, createFolders, updateFolders, deleteFolders,
-                            readCaseStudies, createCaseStudies, updateCaseStudies, deleteCaseStudies,readDepartment
+                            readFolders, createFolders, updateFolders, deleteFolders,updateRequisition,
+                            readCaseStudies, createCaseStudies, updateCaseStudies, deleteCaseStudies,readDepartment,createRequisition
                     )));
                     return role;
                 });
@@ -207,7 +207,7 @@ public class RoleService {
                     role.setName("OFFICER");
                     role.setPermissions(new HashSet<>(Arrays.asList(
                             readFiles, readFolders, readCaseStudies,createFiles,readDepartment,readRequisition,
-                            createRequisition,updateRequisition,deleteRequisition
+                            updateRequisition,deleteRequisition
                     )));
                     return role;
                 });
@@ -217,7 +217,7 @@ public class RoleService {
                     Role role = new Role();
                     role.setName("MANAGER");
                     role.setPermissions(new HashSet<>(Arrays.asList(
-                            readFiles, readFolders, readCaseStudies,createFiles,readDepartment
+                            readFiles, readFolders, readCaseStudies,createFiles,readDepartment,readRequisition,updateRequisition
                     )));
                     return role;
                 });
@@ -227,7 +227,7 @@ public class RoleService {
                     Role role = new Role();
                     role.setName("DEPUTY");
                     role.setPermissions(new HashSet<>(Arrays.asList(
-                            readFiles, readFolders, readCaseStudies,createFiles,readDepartment
+                            readFiles, readFolders, readCaseStudies,createFiles,readDepartment,readRequisition,updateRequisition
                     )));
                     return role;
                 });
