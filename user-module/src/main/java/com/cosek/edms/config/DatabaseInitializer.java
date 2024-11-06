@@ -69,34 +69,29 @@ public class DatabaseInitializer {
                 ensurePermission(UPDATE_REQUISITION),
                 ensurePermission(DELETE_REQUISITION),
 
-                // New Files permissions
-                ensurePermission(READ_FILES),
-                ensurePermission(CREATE_FILES),
-                ensurePermission(UPDATE_FILES),
-                ensurePermission(DELETE_FILES),
+                // New Bids permissions
+                ensurePermission(READ_BIDS),
+                ensurePermission(CREATE_BIDS),
+                ensurePermission(UPDATE_BIDS),
+                ensurePermission(DELETE_BIDS),
 
-                // New Folders permissions
-                ensurePermission(READ_FOLDERS),
-                ensurePermission(CREATE_FOLDERS),
-                ensurePermission(UPDATE_FOLDERS),
-                ensurePermission(DELETE_FOLDERS),
+                // New Conflicts permissions
+                ensurePermission(READ_CONFLICTS),
+                ensurePermission(CREATE_CONFLICTS),
+                ensurePermission(UPDATE_CONFLICTS),
+                ensurePermission(DELETE_CONFLICTS),
 
-                // New Case Studies permissions
-                ensurePermission(READ_CASESTUDIES),
-                ensurePermission(CREATE_CASESTUDIES),
-                ensurePermission(UPDATE_CASESTUDIES),
-                ensurePermission(DELETE_CASESTUDIES),
+                // New Memo permissions
+                ensurePermission(READ_MEMO),
+                ensurePermission(CREATE_MEMO),
+                ensurePermission(UPDATE_MEMO),
+                ensurePermission(DELETE_MEMO),
 
-                // New Requests permissions
-                ensurePermission(READ_REQUESTS),
-                ensurePermission(CREATE_REQUESTS),
-                ensurePermission(UPDATE_REQUESTS),
-                ensurePermission(DELETE_REQUESTS),
-
-                ensurePermission(READ_DEPARTMENTS),
-                ensurePermission(CREATE_DEPARTMENTS),
-                ensurePermission(UPDATE_DEPARTMENTS),
-                ensurePermission(DELETE_DEPARTMENTS)
+                // New Funds permissions
+                ensurePermission(READ_FUNDS),
+                ensurePermission(CREATE_FUNDS),
+                ensurePermission(UPDATE_FUNDS),
+                ensurePermission(DELETE_FUNDS)
         );
     }
 
@@ -116,7 +111,7 @@ public class DatabaseInitializer {
         Set<Permission> adminPermissions = permissions.stream()
                 .filter(permission -> List.of(
                         CREATE_USER, READ_USER, UPDATE_USER, DELETE_USER,
-                        CREATE_ROLE, READ_ROLE, UPDATE_ROLE, DELETE_ROLE,CREATE_FILES
+                        CREATE_ROLE, READ_ROLE, UPDATE_ROLE, DELETE_ROLE
                 ).contains(permission.getName()))
                 .collect(Collectors.toSet());
 

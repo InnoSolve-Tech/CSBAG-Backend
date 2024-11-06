@@ -5,11 +5,18 @@ import com.cosek.edms.ProcurementStatusHistory.ProcurementStatusHistoryRepositor
 import com.cosek.edms.exception.ResourceNotFoundException;
 import com.cosek.edms.user.User;
 import com.cosek.edms.user.UserRepository;
+import com.cosek.edms.util.PdfGenerator;
+import com.itextpdf.text.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,6 +36,8 @@ public class ProcurementController {
     @Autowired
     private ProcurementStatusHistoryRepository procurementStatusHistoryRepository;  // Correct this line
 
+    @Autowired
+    private PdfGenerator pdfGenerator;
 
     @PostMapping("create")
     public ResponseEntity<Procurement> createProcurement(@RequestBody Procurement procurement) {
@@ -93,5 +102,33 @@ public class ProcurementController {
 
     }
 
+    @GetMapping("/download/{id}")
+    public ResponseEntity<byte[]> downloadProcurementPdf(@PathVariable Long id) throws DocumentException, IOException {
+        Procurement procurement = procurementRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Procurement not found"));
+
+        List<ProcurementStatusHistory> statusHistoryList = procurementStatusHistoryRepository.findByProcurementId(id);
+
+        // Create a data map for procurement details
+        Map<String, Object> procurementData = new HashMap<>();
+        procurementData.put("Service Name", procurement.getServiceName());
+        procurementData.put("Description", procurement.getDescription());
+        procurementData.put("Department", procurement.getDepartment());
+        procurementData.put("Quantity", procurement.getQuantity());
+        procurementData.put("Amount", procurement.getAmount());
+        procurementData.put("Date Needed", procurement.getDateNeeded());
+        procurementData.put("Status", procurement.getStatus());
+
+        // Generate the PDF using the generic PDF generator
+        ByteArrayOutputStream pdfStream = pdfGenerator.generateGenericPdf("Procurement Details", procurementData);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition", "attachment; filename=procurement_" + id + ".pdf");
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(pdfStream.toByteArray());
+    }
 }
 

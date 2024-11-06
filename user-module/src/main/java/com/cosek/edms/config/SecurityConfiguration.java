@@ -55,11 +55,6 @@ public class SecurityConfiguration {
                                 .requestMatchers(HttpMethod.DELETE, "/api/v1/users/{id}").hasAuthority(DELETE_USER)
 
 
-                                .requestMatchers(HttpMethod.POST, "/api/v1/departments/create-department").hasAuthority(CREATE_DEPARTMENTS)
-                                .requestMatchers(HttpMethod.POST, "/api/v1/departments/assign-user-to-department").hasAuthority(UPDATE_DEPARTMENTS)
-                                .requestMatchers(HttpMethod.GET, "/api/v1/departments/departmentById/{id}").hasAuthority(READ_DEPARTMENTS)
-
-
                                 // Role permissions
                                 .requestMatchers(HttpMethod.GET, "/api/v1/roles/all").hasAuthority(READ_ROLE)
                                 .requestMatchers(HttpMethod.POST, "/api/v1/roles/create-roles").hasAuthority(CREATE_ROLE)
@@ -73,37 +68,15 @@ public class SecurityConfiguration {
                                 .requestMatchers(HttpMethod.POST, "/api/v1/permissions/add").hasAuthority(CREATE_PERMISSION)
                                 .requestMatchers(HttpMethod.POST, "/api/v1/permissions/remove").hasAuthority(DELETE_PERMISSION)
 
-                                // Case Studies permissions
-                                .requestMatchers(HttpMethod.GET, "/api/v1/case-studies/all","/api/v1/case-studies/{id}").hasAuthority(READ_CASESTUDIES)
-                                .requestMatchers(HttpMethod.POST, "/api/v1/case-studies/create-cases").hasAuthority(CREATE_CASESTUDIES)
-                                .requestMatchers(HttpMethod.PUT, "/api/v1/case-studies/assign-user","/api/v1/case-studies/update/{id}").hasAuthority(UPDATE_CASESTUDIES)
-                                .requestMatchers(HttpMethod.DELETE, "/api/v1/case-studies/delete/{id}").hasAuthority(DELETE_CASESTUDIES)
-
-                                // Files permissions
-                                .requestMatchers(HttpMethod.GET, "/api/v1/files/{id}").hasAuthority(READ_FILES)
-                                .requestMatchers(HttpMethod.GET, "/api/v1/files/all").hasAuthority(READ_FILES)
-                                .requestMatchers(HttpMethod.GET, "/api/v1/files/all/{id}").hasAuthority(READ_FILES)
-                                .requestMatchers(HttpMethod.POST, "/api/v1/files/add").hasAuthority(CREATE_FILES)
-                                .requestMatchers(HttpMethod.PUT, "/api/v1/files/update/{id}").hasAuthority(UPDATE_FILES)
-                                .requestMatchers(HttpMethod.PUT, "/api/v1/files/update-multiple").hasAuthority(UPDATE_FILES)
-                                .requestMatchers(HttpMethod.DELETE, "/api/v1/files/delete/{id}").hasAuthority(DELETE_FILES)
-                                .requestMatchers(HttpMethod.DELETE, "/api/v1/files/delete-multiple").hasAuthority(DELETE_FILES)
-
-
-                                // Folders permissions
-                                .requestMatchers(HttpMethod.GET, "/api/v1/folders/{id}").hasAuthority(READ_FOLDERS)
-                                .requestMatchers(HttpMethod.GET, "/api/v1/folders/all").hasAuthority(READ_FOLDERS)
-                                .requestMatchers(HttpMethod.POST, "/api/v1/folders/add").hasAuthority(CREATE_FOLDERS)
-                                .requestMatchers(HttpMethod.PUT, "/api/v1/folders/update/{id}").hasAuthority(UPDATE_FOLDERS)
-                                .requestMatchers(HttpMethod.PUT, "/api/v1/folders/update-multiple").hasAuthority(UPDATE_FOLDERS)
-                                .requestMatchers(HttpMethod.DELETE, "/api/v1/folders/delete/{id}").hasAuthority(DELETE_FOLDERS)
-                                .requestMatchers(HttpMethod.DELETE, "/api/v1/folders/delete-multiple").hasAuthority(DELETE_FOLDERS)
-                                .requestMatchers(HttpMethod.GET, "/api/v1/folders/departments/{departmentId}").hasAuthority(READ_FOLDERS)
-
                                 .requestMatchers(HttpMethod.GET, "/api/v1/procurement/all").hasAuthority(READ_REQUISITION)
                                 .requestMatchers(HttpMethod.POST, "/api/v1/procurement/create").hasAuthority(CREATE_REQUISITION)
                                 .requestMatchers(HttpMethod.PUT, "/api/v1/procurement/update/{id}").hasAuthority(UPDATE_REQUISITION)
                                 .requestMatchers(HttpMethod.PUT, "/api/v1/procurement/updatestatus/{id}").hasAuthority(UPDATE_REQUISITION)
+
+                                .requestMatchers(HttpMethod.GET, "/api/v1/bids/all").hasAuthority(READ_BIDS)
+                                .requestMatchers(HttpMethod.POST, "/api/v1/bids/create").hasAuthority(CREATE_BIDS)
+//                                .requestMatchers(HttpMethod.PUT, "/api/v1/bids/update/{id}").hasAuthority(UPDATE_BIDS)
+//                                .requestMatchers(HttpMethod.PUT, "/api/v1/procurement/updatestatus/{id}").hasAuthority(UPDATE_REQUISITION)
 
 
                                 // Dashboard permissions
