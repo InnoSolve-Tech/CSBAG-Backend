@@ -129,34 +129,44 @@ public class RoleService {
     @PostConstruct
     public void initializeRolesAndPermissions() {
         // Files permissions
-        Permission readFiles = permissionRepository.findByName("READ_FILES")
-                .orElseGet(() -> permissionRepository.save(new Permission(null, "READ_FILES", new HashSet<>())));
-        Permission createFiles = permissionRepository.findByName("CREATE_FILES")
-                .orElseGet(() -> permissionRepository.save(new Permission(null, "CREATE_FILES", new HashSet<>())));
-        Permission updateFiles = permissionRepository.findByName("UPDATE_FILES")
-                .orElseGet(() -> permissionRepository.save(new Permission(null, "UPDATE_FILES", new HashSet<>())));
-        Permission deleteFiles = permissionRepository.findByName("DELETE_FILES")
-                .orElseGet(() -> permissionRepository.save(new Permission(null, "DELETE_FILES", new HashSet<>())));
+        Permission readBids = permissionRepository.findByName("READ_BIDS")
+                .orElseGet(() -> permissionRepository.save(new Permission(null, "READ_BIDS", new HashSet<>())));
+        Permission createBids = permissionRepository.findByName("CREATE_BIDS")
+                .orElseGet(() -> permissionRepository.save(new Permission(null, "CREATE_BIDS", new HashSet<>())));
+        Permission updateBids = permissionRepository.findByName("UPDATE_BIDS")
+                .orElseGet(() -> permissionRepository.save(new Permission(null, "UPDATE_BIDS", new HashSet<>())));
+        Permission deleteBids = permissionRepository.findByName("DELETE_BIDS")
+                .orElseGet(() -> permissionRepository.save(new Permission(null, "DELETE_BIDS", new HashSet<>())));
+
+        Permission readRequisition = permissionRepository.findByName("READ_REQUISITION")
+                .orElseGet(() -> permissionRepository.save(new Permission(null, "READ_REQUISITION", new HashSet<>())));
+        Permission createRequisition  = permissionRepository.findByName("CREATE_REQUISITION")
+                .orElseGet(() -> permissionRepository.save(new Permission(null, "CREATE_REQUISITION", new HashSet<>())));
+        Permission updateRequisition  = permissionRepository.findByName("UPDATE_REQUISITION")
+                .orElseGet(() -> permissionRepository.save(new Permission(null, "UPDATE_REQUISITION", new HashSet<>())));
+        Permission deleteRequisition  = permissionRepository.findByName("DELETE_REQUISITION")
+                .orElseGet(() -> permissionRepository.save(new Permission(null, "DELETE_REQUISITION", new HashSet<>())));
+
 
         // Folders permissions
-        Permission readFolders = permissionRepository.findByName("READ_FOLDERS")
-                .orElseGet(() -> permissionRepository.save(new Permission(null, "READ_FOLDERS", new HashSet<>())));
-        Permission createFolders = permissionRepository.findByName("CREATE_FOLDERS")
-                .orElseGet(() -> permissionRepository.save(new Permission(null, "CREATE_FOLDERS", new HashSet<>())));
-        Permission updateFolders = permissionRepository.findByName("UPDATE_FOLDERS")
-                .orElseGet(() -> permissionRepository.save(new Permission(null, "UPDATE_FOLDERS", new HashSet<>())));
-        Permission deleteFolders = permissionRepository.findByName("DELETE_FOLDERS")
-                .orElseGet(() -> permissionRepository.save(new Permission(null, "DELETE_FOLDERS", new HashSet<>())));
+        Permission readConflicts = permissionRepository.findByName("READ_CONFLICTS")
+                .orElseGet(() -> permissionRepository.save(new Permission(null, "READ_CONFLICTS", new HashSet<>())));
+        Permission createConflicts = permissionRepository.findByName("CREATE_CONFLICTS")
+                .orElseGet(() -> permissionRepository.save(new Permission(null, "CREATE_CONFLICTS", new HashSet<>())));
+        Permission updateConflicts = permissionRepository.findByName("UPDATE_CONFLICTS")
+                .orElseGet(() -> permissionRepository.save(new Permission(null, "UPDATE_CONFLICTS", new HashSet<>())));
+        Permission deleteConflicts = permissionRepository.findByName("DELETE_CONFLICTS")
+                .orElseGet(() -> permissionRepository.save(new Permission(null, "DELETE_CONFLICTS", new HashSet<>())));
 
         // Case Studies permissions
-        Permission readCaseStudies = permissionRepository.findByName("READ_CASESTUDIES")
-                .orElseGet(() -> permissionRepository.save(new Permission(null, "READ_CASESTUDIES", new HashSet<>())));
-        Permission createCaseStudies = permissionRepository.findByName("CREATE_CASESTUDIES")
-                .orElseGet(() -> permissionRepository.save(new Permission(null, "CREATE_CASESTUDIES", new HashSet<>())));
-        Permission updateCaseStudies = permissionRepository.findByName("UPDATE_CASESTUDIES")
-                .orElseGet(() -> permissionRepository.save(new Permission(null, "UPDATE_CASESTUDIES", new HashSet<>())));
-        Permission deleteCaseStudies = permissionRepository.findByName("DELETE_CASESTUDIES")
-                .orElseGet(() -> permissionRepository.save(new Permission(null, "DELETE_CASESTUDIES", new HashSet<>())));
+        Permission readMemo = permissionRepository.findByName("READ_MEMO")
+                .orElseGet(() -> permissionRepository.save(new Permission(null, "READ_MEMO", new HashSet<>())));
+        Permission createMemo = permissionRepository.findByName("CREATE_MEMO")
+                .orElseGet(() -> permissionRepository.save(new Permission(null, "CREATE_MEMO", new HashSet<>())));
+        Permission updateMemo = permissionRepository.findByName("UPDATE_MEMO")
+                .orElseGet(() -> permissionRepository.save(new Permission(null, "UPDATE_MEMO", new HashSet<>())));
+        Permission deleteMemo = permissionRepository.findByName("DELETE_MEMO")
+                .orElseGet(() -> permissionRepository.save(new Permission(null, "DELETE_MEMO", new HashSet<>())));
 
         // Existing User and Role Permissions
         Permission createUser = permissionRepository.findByName("CREATE_USER")
@@ -168,14 +178,14 @@ public class RoleService {
 
 
         // Existing User and Role Permissions
-        Permission createDepartment = permissionRepository.findByName("CREATE_DEPARTMENT")
-                .orElseGet(() -> permissionRepository.save(new Permission(null, "CREATE_DEPARTMENT", new HashSet<>())));
-        Permission deleteDepartment = permissionRepository.findByName("DELETE_DEPARTMENT")
-                .orElseGet(() -> permissionRepository.save(new Permission(null, "DELETE_DEPARTMENT", new HashSet<>())));
-        Permission readDepartment = permissionRepository.findByName("READ_DEPARTMENT")
-                .orElseGet(() -> permissionRepository.save(new Permission(null, "READ_DEPARTMENT", new HashSet<>())));
-        Permission updateDepartment = permissionRepository.findByName("UPDATE_DEPARTMENT")
-                .orElseGet(() -> permissionRepository.save(new Permission(null, "UPDATE_DEPARTMENT", new HashSet<>())));
+        Permission createFunds = permissionRepository.findByName("CREATE_FUNDS")
+                .orElseGet(() -> permissionRepository.save(new Permission(null, "CREATE_FUNDS", new HashSet<>())));
+        Permission deleteFunds = permissionRepository.findByName("DELETE_FUNDS")
+                .orElseGet(() -> permissionRepository.save(new Permission(null, "DELETE_FUNDS", new HashSet<>())));
+        Permission readFunds = permissionRepository.findByName("READ_FUNDS")
+                .orElseGet(() -> permissionRepository.save(new Permission(null, "READ_FUNDS", new HashSet<>())));
+        Permission updateFunds = permissionRepository.findByName("UPDATE_FUNDS")
+                .orElseGet(() -> permissionRepository.save(new Permission(null, "UPDATE_FUNDS", new HashSet<>())));
 
         // Assign permissions to roles
         Role adminRole = roleRepository.findByName("ADMIN")
@@ -184,26 +194,51 @@ public class RoleService {
                     role.setName("ADMIN");
                     role.setPermissions(new HashSet<>(Arrays.asList(
                             readUser,
-                            readFiles, createFiles, updateFiles, deleteFiles,
-                            readFolders, createFolders, updateFolders, deleteFolders,
-                            readCaseStudies, createCaseStudies, updateCaseStudies, deleteCaseStudies,readDepartment
+                            readBids, createBids, updateBids, deleteBids,
+                            updateRequisition,createRequisition
                     )));
                     return role;
                 });
 
-        Role userRole = roleRepository.findByName("USER")
+        Role officerRole = roleRepository.findByName("OFFICER")
                 .orElseGet(() -> {
                     Role role = new Role();
-                    role.setName("USER");
+                    role.setName("OFFICER");
                     role.setPermissions(new HashSet<>(Arrays.asList(
-                            readFiles, readFolders, readCaseStudies,createFiles,readDepartment
+                            readBids,readRequisition
                     )));
                     return role;
                 });
+
+        Role managerRole = roleRepository.findByName("MANAGER")
+                .orElseGet(() -> {
+                    Role role = new Role();
+                    role.setName("MANAGER");
+                    role.setPermissions(new HashSet<>(Arrays.asList(
+                            readBids,readRequisition
+                    )));
+                    return role;
+                });
+
+        Role deputyRole = roleRepository.findByName("DEPUTY")
+                .orElseGet(() -> {
+                    Role role = new Role();
+                    role.setName("DEPUTY");
+                    role.setPermissions(new HashSet<>(Arrays.asList(
+                            readBids,
+                            readRequisition,updateRequisition
+                    )));
+                    return role;
+                });
+
 
         // Save roles
         roleRepository.save(adminRole);
-        roleRepository.save(userRole);
+        roleRepository.save(officerRole);
+        roleRepository.save(managerRole);
+        roleRepository.save(deputyRole);
+
+
     }
 
     public Role addPermissionToRole(String roleName, String permissionName) {

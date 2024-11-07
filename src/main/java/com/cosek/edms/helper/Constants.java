@@ -22,39 +22,34 @@ public class Constants {
     public static final String UPDATE_PERMISSION = "UPDATE_PERMISSION";
 
     // New Dashboard permissions
-    public static final String READ_DASHBOARD = "READ_DASHBOARD";
-    public static final String CREATE_DASHBOARD = "CREATE_DASHBOARD";
-    public static final String UPDATE_DASHBOARD = "UPDATE_DASHBOARD";
-    public static final String DELETE_DASHBOARD = "DELETE_DASHBOARD";
+    public static final String READ_REQUISITION = "READ_REQUISITION";
+    public static final String CREATE_REQUISITION = "CREATE_REQUISITION";
+    public static final String UPDATE_REQUISITION = "UPDATE_REQUISITION";
+    public static final String DELETE_REQUISITION = "DELETE_REQUISITION";
 
-    // New Files permissions
-    public static final String READ_FILES = "READ_FILES";
-    public static final String CREATE_FILES = "CREATE_FILES";
-    public static final String UPDATE_FILES = "UPDATE_FILES";
-    public static final String DELETE_FILES = "DELETE_FILES";
+    // New permissions for Bids
+    public static final String READ_BIDS = "READ_BIDS";
+    public static final String CREATE_BIDS = "CREATE_BIDS";
+    public static final String UPDATE_BIDS = "UPDATE_BIDS";
+    public static final String DELETE_BIDS = "DELETE_BIDS";
 
-    // New Folders permissions
-    public static final String READ_FOLDERS = "READ_FOLDERS";
-    public static final String CREATE_FOLDERS = "CREATE_FOLDERS";
-    public static final String UPDATE_FOLDERS = "UPDATE_FOLDERS";
-    public static final String DELETE_FOLDERS = "DELETE_FOLDERS";
+    // New permissions for Conflicts
+    public static final String READ_CONFLICTS = "READ_CONFLICTS";
+    public static final String CREATE_CONFLICTS = "CREATE_CONFLICTS";
+    public static final String UPDATE_CONFLICTS = "UPDATE_CONFLICTS";
+    public static final String DELETE_CONFLICTS = "DELETE_CONFLICTS";
 
-    // New Case Studies permissions
-    public static final String READ_CASESTUDIES = "READ_CASESTUDIES";
-    public static final String CREATE_CASESTUDIES = "CREATE_CASESTUDIES";
-    public static final String UPDATE_CASESTUDIES = "UPDATE_CASESTUDIES";
-    public static final String DELETE_CASESTUDIES = "DELETE_CASESTUDIES";
+    // New permissions for Memos
+    public static final String READ_MEMO = "READ_MEMO";
+    public static final String CREATE_MEMO = "CREATE_MEMO";
+    public static final String UPDATE_MEMO = "UPDATE_MEMO";
+    public static final String DELETE_MEMO = "DELETE_MEMO";
 
-    public static final String READ_REQUESTS = "READ_REQUESTS";
-    public static final String CREATE_REQUESTS = "CREATE_REQUESTS";
-    public static final String UPDATE_REQUESTS = "UPDATE_REQUESTS";
-    public static final String DELETE_REQUESTS = "DELETE_REQUESTS";
-
-    public static final String READ_DEPARTMENTS = "READ_DEPARTMENTS";
-    public static final String CREATE_DEPARTMENTS = "CREATE_DEPARTMENTS";
-    public static final String UPDATE_DEPARTMENTS = "UPDATE_DEPARTMENTS";
-    public static final String DELETE_DEPARTMENTS = "DELETE_DEPARTMENTS";
-
+    // New permissions for Funds
+    public static final String READ_FUNDS = "READ_FUNDS";
+    public static final String CREATE_FUNDS = "CREATE_FUNDS";
+    public static final String UPDATE_FUNDS = "UPDATE_FUNDS";
+    public static final String DELETE_FUNDS = "DELETE_FUNDS";
     // Other constants...
     public static final String USER_ROUTE = GENERAL_ROUTE + "/**";
     public static final String ROLE_ROUTE = GENERAL_ROUTE + "/roles/**";
@@ -69,7 +64,9 @@ public class Constants {
     public static final String ADMIN_LAST_NAME = "Super";
     public static final String ADMIN_COUNTRY = "Uganda";
     public static final String ADMIN = "ADMIN";
-    public static final String USER = "USER";
+    public static final String OFFICER = "OFFICER";
+    public static final String MANAGER = "MANAGER";
+    public static final String DEPUTY = "DEPUTY";
 
     public static final String SUCCESSFUL_DELETION = "Delete Successful";
     public static final String FAILED_DELETION = "Delete Failed";

@@ -34,10 +34,15 @@ public class DatabaseInitializer {
             List<Permission> permissions = initializePermissions();
             Role superAdminRole = initializeSuperAdminRole(permissions);
             Role adminRole = initializeAdminRole(permissions);
-            Role userRole = initializeUserRole(permissions);
+            Role officerRole = initializeOfficerRole(permissions);
+            Role managerRole = initializeManagerRole(permissions);
+            Role deputyRole = initializeDeputyRole(permissions);
             initializeAdminUser(superAdminRole);
             initializeAdmUser(adminRole);
-            initializeUser(userRole);
+            initializeOfficer(officerRole);
+            initializeManager(managerRole);
+            initializeDeputy(deputyRole);
+
 
         };
     }
@@ -59,39 +64,34 @@ public class DatabaseInitializer {
                 ensurePermission(DELETE_USER),
 
                 // New Dashboard permissions
-                ensurePermission(READ_DASHBOARD),
-                ensurePermission(CREATE_DASHBOARD),
-                ensurePermission(UPDATE_DASHBOARD),
-                ensurePermission(DELETE_DASHBOARD),
+                ensurePermission(READ_REQUISITION),
+                ensurePermission(CREATE_REQUISITION),
+                ensurePermission(UPDATE_REQUISITION),
+                ensurePermission(DELETE_REQUISITION),
 
-                // New Files permissions
-                ensurePermission(READ_FILES),
-                ensurePermission(CREATE_FILES),
-                ensurePermission(UPDATE_FILES),
-                ensurePermission(DELETE_FILES),
+                // New Bids permissions
+                ensurePermission(READ_BIDS),
+                ensurePermission(CREATE_BIDS),
+                ensurePermission(UPDATE_BIDS),
+                ensurePermission(DELETE_BIDS),
 
-                // New Folders permissions
-                ensurePermission(READ_FOLDERS),
-                ensurePermission(CREATE_FOLDERS),
-                ensurePermission(UPDATE_FOLDERS),
-                ensurePermission(DELETE_FOLDERS),
+                // New Conflicts permissions
+                ensurePermission(READ_CONFLICTS),
+                ensurePermission(CREATE_CONFLICTS),
+                ensurePermission(UPDATE_CONFLICTS),
+                ensurePermission(DELETE_CONFLICTS),
 
-                // New Case Studies permissions
-                ensurePermission(READ_CASESTUDIES),
-                ensurePermission(CREATE_CASESTUDIES),
-                ensurePermission(UPDATE_CASESTUDIES),
-                ensurePermission(DELETE_CASESTUDIES),
+                // New Memo permissions
+                ensurePermission(READ_MEMO),
+                ensurePermission(CREATE_MEMO),
+                ensurePermission(UPDATE_MEMO),
+                ensurePermission(DELETE_MEMO),
 
-                // New Requests permissions
-                ensurePermission(READ_REQUESTS),
-                ensurePermission(CREATE_REQUESTS),
-                ensurePermission(UPDATE_REQUESTS),
-                ensurePermission(DELETE_REQUESTS),
-
-                ensurePermission(READ_DEPARTMENTS),
-                ensurePermission(CREATE_DEPARTMENTS),
-                ensurePermission(UPDATE_DEPARTMENTS),
-                ensurePermission(DELETE_DEPARTMENTS)
+                // New Funds permissions
+                ensurePermission(READ_FUNDS),
+                ensurePermission(CREATE_FUNDS),
+                ensurePermission(UPDATE_FUNDS),
+                ensurePermission(DELETE_FUNDS)
         );
     }
 
@@ -111,7 +111,7 @@ public class DatabaseInitializer {
         Set<Permission> adminPermissions = permissions.stream()
                 .filter(permission -> List.of(
                         CREATE_USER, READ_USER, UPDATE_USER, DELETE_USER,
-                        CREATE_ROLE, READ_ROLE, UPDATE_ROLE, DELETE_ROLE,CREATE_FILES
+                        CREATE_ROLE, READ_ROLE, UPDATE_ROLE, DELETE_ROLE
                 ).contains(permission.getName()))
                 .collect(Collectors.toSet());
 
@@ -121,14 +121,36 @@ public class DatabaseInitializer {
                 ));
     }
 
-    private Role initializeUserRole(List<Permission> permissions) {
-        Set<Permission> userPermissions = permissions.stream()
+    private Role initializeOfficerRole(List<Permission> permissions) {
+        Set<Permission> officerPermissions = permissions.stream()
                 .filter(permission -> permission.getName().equals(READ_USER))
                 .collect(Collectors.toSet());
 
-        return roleRepository.findByName(USER)
+        return roleRepository.findByName(OFFICER)
                 .orElseGet(() -> roleRepository.save(
-                        new Role(null, USER, null, userPermissions)
+                        new Role(null, OFFICER, null, officerPermissions)
+                ));
+    }
+
+    private Role initializeManagerRole(List<Permission> permissions) {
+        Set<Permission> managerPermissions = permissions.stream()
+                .filter(permission -> permission.getName().equals(READ_USER))
+                .collect(Collectors.toSet());
+
+        return roleRepository.findByName(MANAGER)
+                .orElseGet(() -> roleRepository.save(
+                        new Role(null, MANAGER, null, managerPermissions)
+                ));
+    }
+
+    private Role initializeDeputyRole(List<Permission> permissions) {
+        Set<Permission> deputyPermissions = permissions.stream()
+                .filter(permission -> permission.getName().equals(READ_USER))
+                .collect(Collectors.toSet());
+
+        return roleRepository.findByName(DEPUTY)
+                .orElseGet(() -> roleRepository.save(
+                        new Role(null, DEPUTY, null, deputyPermissions)
                 ));
     }
 
@@ -152,8 +174,18 @@ public class DatabaseInitializer {
         HashSet<Role> roles = new HashSet<>();
         roles.add(adminRole);
     }
-    private void initializeUser(Role userRole) {
+    private void initializeOfficer(Role officerRole) {
         HashSet<Role> roles = new HashSet<>();
-        roles.add(userRole);
+        roles.add(officerRole);
+    }
+
+    private void initializeManager(Role managerRole) {
+        HashSet<Role> roles = new HashSet<>();
+        roles.add(managerRole);
+    }
+
+    private void initializeDeputy(Role deputyRole) {
+        HashSet<Role> roles = new HashSet<>();
+        roles.add(deputyRole);
     }
 }

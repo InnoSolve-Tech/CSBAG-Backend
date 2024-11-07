@@ -55,9 +55,14 @@ public class UserService {
             Role assignedRole;
             if ("admin".equalsIgnoreCase(userType)) {
                 assignedRole = roleService.findByRoleName("ADMIN");
-            } else if ("user".equalsIgnoreCase(userType)) {
-                assignedRole = roleService.findByRoleName("USER");
-            } else {
+            } else if ("officer".equalsIgnoreCase(userType)) {
+                assignedRole = roleService.findByRoleName("OFFICER");
+            }  else if ("manager".equalsIgnoreCase(userType)) {
+                assignedRole = roleService.findByRoleName("MANAGER");
+            }
+            else if ("deputy".equalsIgnoreCase(userType)) {
+                assignedRole = roleService.findByRoleName("DEPUTY");
+            }else {
                 throw new IllegalArgumentException("Invalid user type: " + userType);
             }
 
@@ -79,9 +84,14 @@ public class UserService {
             Role roleToRemove;
             if ("admin".equalsIgnoreCase(userType)) {
                 roleToRemove = roleService.findByRoleName("ADMIN");
-            } else if ("user".equalsIgnoreCase(userType)) {
-                roleToRemove = roleService.findByRoleName("USER");
-            } else {
+            } else if ("officer".equalsIgnoreCase(userType)) {
+                roleToRemove = roleService.findByRoleName("OFFICER");
+            } else if ("manager".equalsIgnoreCase(userType)) {
+                roleToRemove = roleService.findByRoleName("MANAGER");
+            } else if ("deputy".equalsIgnoreCase(userType)) {
+                roleToRemove = roleService.findByRoleName("DEPUTY");
+            }
+            else {
                 throw new IllegalArgumentException("Invalid user type: " + userType);
             }
 
