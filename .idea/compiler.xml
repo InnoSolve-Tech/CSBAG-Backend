@@ -10,6 +10,12 @@
         <module name="edms" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="edms (1)" target="17" />
+      <module name="edms (2)" target="17" />
+      <module name="edms (3)" target="17" />
+      <module name="edms (4)" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
